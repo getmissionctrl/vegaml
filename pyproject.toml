@@ -83,3 +83,15 @@ exclude = ["vegaml/_common.py", "vegaml/_api.py", "vegaml/_vision.py"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+# --- facet-trade packaging overlay (our clone only; not upstream) ---
+# hq's RTX 3090 runs driver 570.195 = CUDA 12.8 max. Pin torch to the cu128 wheels
+# so it does not pull the CUDA-13 (cu13) stack that needs driver >= 580.
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu128" }
+torchvision = { index = "pytorch-cu128" }
